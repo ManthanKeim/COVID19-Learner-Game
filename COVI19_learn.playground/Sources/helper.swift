@@ -45,6 +45,7 @@ public class Card: UIImageView {
     }
 }
 
+
 public class GameController: UIViewController {
 
     
@@ -58,7 +59,6 @@ public class GameController: UIViewController {
         color: .red,
         size: CGSize(width: cardWidth, height: cardHeight))!
 
-    // (2): computed properties
     var viewWidth: CGFloat {
         get {
             return 4 * cardWidth + 5 * padding
@@ -101,6 +101,8 @@ public class GameController: UIViewController {
         title5.isHidden = true
     }
     
+    
+    
     func start_game(){
         
         preferredContentSize = CGSize(width: viewWidth, height: viewHeight)
@@ -119,9 +121,12 @@ public class GameController: UIViewController {
         }
         let tap = UITapGestureRecognizer(target: self, action: #selector(GameController.handleTap(gr:)))
         view.addGestureRecognizer(tap)
+        
+        quickPeek()
+        
         view.addSubview(label)
     }
-
+    
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -181,7 +186,7 @@ public class GameController: UIViewController {
     }
     var counter_c = 0
     var counter_a = 0
-let label = UILabel(frame: CGRect(x: 0, y: 0, width: 500, height: 200))
+    let label = UILabel(frame: CGRect(x: 0, y: 0, width: 500, height: 200))
     let title3 = UILabel(frame: CGRect(x: 50, y: 100, width: 500, height: 150))
     let title4 = UILabel(frame: CGRect(x: 50, y: 350, width: 500, height: 200))
     let title5 = UILabel(frame: CGRect(x: 50, y: 450, width: 500, height: 200))
@@ -214,7 +219,7 @@ let label = UILabel(frame: CGRect(x: 0, y: 0, width: 500, height: 200))
         title3.numberOfLines = 0
         self.view.addSubview(title3)
         
-        title4.text = "Start with turning two cards, if they matchs, you're good if not take another chance. Once all the cards are disappeared, you wins. Try to do it with least flips possible. Good Luck and Stay Home, Stay Safe"
+        title4.text = "Rule: Start with turning two cards, if they match, you're good if not take another chance. once all the cards are disappeared, you win. Try to do it with least flips possible. Good Luck and Stay Home, Stay Safe. Hint: Long press for 2 seconds to Peek"
         title4.textColor = UIColor.white
 //        title4.sizeToFit()
         title4.numberOfLines = 5
@@ -243,7 +248,29 @@ let label = UILabel(frame: CGRect(x: 0, y: 0, width: 500, height: 200))
             counter_a+=1
             label.center = CGPoint(x: 200, y: 10)
                 label.textAlignment = .center
-                    label.textColor = UIColor(red: 0.16, green: 0.64, blue: 0.21, alpha: 1.00)
+            label.font = UIFont(name: "BPreplay", size: 20)
+            if(counter_a<=20){
+                label.textColor = UIColor.green}
+                    else if(counter_a>20 && counter_a<40){
+                        label.textColor = UIColor.orange}
+                    else{
+                        label.textColor = UIColor.red
+                
+//                let alert_again = UIAlertController(title: "!!ALERT!!", message: "You've exceeded the number of flips than usuaul.", preferredStyle: UIAlertController.Style.alert)
+//
+//               
+//                alert_again.addAction(UIAlertAction(title: "Continue", style: UIAlertAction.Style.default, handler: nil))
+//                alert_again.addAction(UIAlertAction(title: "Reset Game", style: UIAlertAction.Style.cancel, handler:{ action in
+//                    self.reset_game()}))
+//
+//                
+//                self.present(alert_again, animated: true, completion: nil)
+//                
+//                
+                
+                
+            }
+//                    label.textColor = UIColor(red: 0.16, green: 0.64, blue: 0.21, alpha: 1.00)
             label.text = "COVID-19 Prevention: Play to Learn, Total Flips: " + String(counter_a)
             print(counter_a)
             UIView.transition(
@@ -345,13 +372,30 @@ let label = UILabel(frame: CGRect(x: 0, y: 0, width: 500, height: 200))
             }
         }
     }
-    let title2 = UILabel(frame: CGRect(x: 200, y: 400, width: 100, height: 50))
+    let title2 = UILabel(frame: CGRect(x: 50, y: 400, width: 500, height: 50))
     func complete_game(){
-        title2.text = "You Won in " + String(counter_a) + " flips."
-        title2.numberOfLines = 0
-        title2.sizeToFit()
+        if(counter_a<=30){
+            title2.numberOfLines = 0
+            title2.textAlignment = NSTextAlignment.center
+            title2.text = "That was amazing, you completed in " + String(counter_a) + " flips."
+            title2.backgroundColor = UIColor.green
+            self.view.addSubview(title2)
+        }
+        else if(counter_a>30 && counter_a<50)
+        {
+            title2.numberOfLines = 0
+            title2.textAlignment = NSTextAlignment.center
+            title2.text = "That was Good, you completed in " + String(counter_a) + " flips.You can do better!!!!"
+            title2.backgroundColor = UIColor.orange
+            self.view.addSubview(title2)
+        }
+        else{
+            title2.numberOfLines = 0
+            title2.textAlignment = NSTextAlignment.center
+        title2.text = "Not Good!!! You completed in " + String(counter_a) + " flips.You can do better!!!!"
         title2.backgroundColor = UIColor.red
         self.view.addSubview(title2)
+        }
         
         
         let button = UIButton(frame: CGRect(x: 250, y: 200, width: 100, height: 50))
@@ -382,8 +426,33 @@ let label = UILabel(frame: CGRect(x: 0, y: 0, width: 500, height: 200))
     view.addGestureRecognizer(tap)
     counter_c = 0
     counter_a = 0
+    quickPeek()
     sender.isHidden = true
     title2.isHidden = true
 }
+    
+    
+    func reset_game(){
+        resetGrid()
+        preferredContentSize = CGSize(width: viewWidth, height: viewHeight)
+        shuffle()
+        setupGrid()
+        for v in view.subviews {
+            if let card = v as? Card {
+                UIView.transition(
+                    with: card,
+                    duration: 1.0,
+                    options: .transitionFlipFromLeft,
+                    animations: {
+                        card.image =  self.backImage
+                }, completion: nil)
+            }
+        }
+        let tap = UITapGestureRecognizer(target: self, action: #selector(GameController.handleTap(gr:)))
+        view.addGestureRecognizer(tap)
+        counter_c = 0
+        counter_a = 0
+        quickPeek()
+    }
     
 }
