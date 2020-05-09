@@ -132,7 +132,7 @@ public class GameController: UIViewController {
 
     public override func loadView() {
         view = UIView()
-        view.backgroundColor = .black
+        view.backgroundColor = UIColor(patternImage: UIImage(named: "background.png")!)
         view.frame = CGRect(x: 0, y: 0, width: viewWidth, height: viewHeight)
     }
 
@@ -186,9 +186,9 @@ public class GameController: UIViewController {
     var counter_c = 0
     var counter_a = 0
     let label = UILabel(frame: CGRect(x: 0, y: 0, width: 500, height: 200))
-    let title3 = UILabel(frame: CGRect(x: 50, y: 100, width: 500, height: 150))
-    let title4 = UILabel(frame: CGRect(x: 50, y: 350, width: 500, height: 200))
-    let title5 = UILabel(frame: CGRect(x: 50, y: 450, width: 500, height: 200))
+    let title3 = UILabel(frame: CGRect(x: 50, y: 50, width: 500, height: 150))
+    let title4 = UILabel(frame: CGRect(x: 50, y: 250, width: 500, height: 200))
+    let title5 = UILabel(frame: CGRect(x: 50, y: 350, width: 500, height: 200))
     public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 //        label.center = CGPoint(x: 200, y: 10)
@@ -209,7 +209,7 @@ public class GameController: UIViewController {
 //        }
         
         
-        title3.text = "Welcome to COVID-19 LEARNING APP"
+        title3.text = "COVID-19 LEARNING APP"
         title3.textColor = UIColor(red: 0.99, green: 0.80, blue: 0.00, alpha: 1.00)
         title3.font = UIFont(name:"Futura", size: 40)
         title3.font = UIFont.boldSystemFont(ofSize: 40)
@@ -218,23 +218,30 @@ public class GameController: UIViewController {
         title3.numberOfLines = 0
         self.view.addSubview(title3)
         
-        title4.text = "Rule: Start with turning two cards, if they match, you're good if not take another chance. once all the cards are disappeared, you win. Try to do it with least flips possible. Good Luck and Stay Home, Stay Safe. Hint: Long press for 2 seconds to Peek"
-        title4.textColor = UIColor.white
+        title4.text = "Rule: Start with turning two cards, if they match, you're good if not take another chance. once all the cards are disappeared, you win. Try to do it with least flips possible. Good Luck and Stay Home, Stay Safe.          Hint: Long press for 2 seconds to Peek"
+//        title4.textColor = UIColor(red: 0.75, green: 0.83, blue: 0.95, alpha: 1.00)
+        title4.textColor = UIColor(red: 0.00, green: 0.00, blue: 0.00, alpha: 0.65)
 //        title4.sizeToFit()
         title4.numberOfLines = 5
+        title4.font = UIFont.boldSystemFont(ofSize: 20)
         title4.textAlignment = NSTextAlignment.center
         self.view.addSubview(title4)
         
-        title5.text = "!!!!Play to Unlock some Tips!!!!!"
-                title5.textColor = UIColor(red: 0.16, green: 0.64, blue: 0.21, alpha: 1.00)
+//        title5.text = "!!!!Play to Unlock some Tips!!!!!"
+//        title5.textColor = UIColor(red: 0.00, green: 0.55, blue: 0.01, alpha: 1.00)
+        title5.textColor = UIColor(red: 0.00, green: 0.00, blue: 0.00, alpha: 0.65)
         //        title4.sizeToFit()
                 title5.numberOfLines = 0
+        title5.font = UIFont.boldSystemFont(ofSize: 20)
                 title5.textAlignment = NSTextAlignment.center
                 self.view.addSubview(title5)
         
         
-        let button2 = UIButton(frame: CGRect(x: 200, y: 300, width: 200, height: 50))
+        let button2 = UIButton(frame: CGRect(x: 180, y: 180, width: 200, height: 50))
+//        button2.backgroundColor = UIColor(red: 0.31, green: 0.54, blue: 0.08, alpha: 1.00)
         button2.backgroundColor = UIColor(red: 0.07, green: 0.45, blue: 0.87, alpha: 1.00)
+        button2.layer.cornerRadius = 10
+        button2.layer.borderWidth = 1
           button2.setTitle("Play to Learn", for: .normal)
           button2.addTarget(self, action: #selector(buttonAction2), for: .touchUpInside)
           self.view.addSubview(button2)
@@ -323,6 +330,7 @@ public class GameController: UIViewController {
                                 self.present(alert, animated: true, completion: nil)
                             }
                             if(self.counter_c==16){
+                                self.playSound3()
                                 self.complete_game()
                             }
                             self.label.text = "Got " + String(self.counter_c/2) + " Tip at " + String(self.counter_a) + " flip"
@@ -497,6 +505,29 @@ public class GameController: UIViewController {
             guard let player2 = player2 else { return }
 
             player2.play()
+
+        } catch let error {
+            print(error.localizedDescription)
+        }
+    }
+    
+    
+    var player3: AVAudioPlayer?
+    func playSound3() {
+        guard let url = Bundle.main.url(forResource: "soundName3", withExtension: "mp3") else { return }
+
+        do {
+            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
+            try AVAudioSession.sharedInstance().setActive(true)
+
+            
+            player3 = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.mp3.rawValue)
+
+            
+
+            guard let player3 = player3 else { return }
+
+            player3.play()
 
         } catch let error {
             print(error.localizedDescription)
