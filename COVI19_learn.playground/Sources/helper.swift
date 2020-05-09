@@ -1,8 +1,7 @@
 import UIKit
 import XCPlayground
 import GameplayKit
-
-
+import AVFoundation
 
 
 public extension UIImage {
@@ -246,6 +245,7 @@ public class GameController: UIViewController {
         let v = view.hitTest(gr.location(in: view), with: nil)!
         if let card = v as? Card {
             counter_a+=1
+            playSound()
             label.center = CGPoint(x: 200, y: 10)
                 label.textAlignment = .center
             label.font = UIFont(name: "BPreplay", size: 20)
@@ -282,6 +282,7 @@ public class GameController: UIViewController {
                     
                     if let pCard = self.firstCard {
                         if pCard.tag == card.tag {
+                            self.playSound2()
                             self.counter_c+=2
                             switch self.counter_c {
                             case 2:
@@ -453,6 +454,53 @@ public class GameController: UIViewController {
         counter_c = 0
         counter_a = 0
         quickPeek()
+    }
+    
+    
+    var player: AVAudioPlayer?
+    
+
+    func playSound() {
+        guard let url = Bundle.main.url(forResource: "soundName", withExtension: "mp3") else { return }
+
+        do {
+            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
+            try AVAudioSession.sharedInstance().setActive(true)
+
+            
+            player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.mp3.rawValue)
+
+           
+
+            guard let player = player else { return }
+
+            player.play()
+
+        } catch let error {
+            print(error.localizedDescription)
+        }
+    }
+    
+    var player2: AVAudioPlayer?
+    func playSound2() {
+        guard let url = Bundle.main.url(forResource: "soundName2", withExtension: "mp3") else { return }
+
+        do {
+            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
+            try AVAudioSession.sharedInstance().setActive(true)
+
+            
+            player2 = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.mp3.rawValue)
+
+            
+
+            guard let player2 = player2 else { return }
+
+            player2.play()
+
+        } catch let error {
+            print(error.localizedDescription)
+        }
     }
     
 }
