@@ -1,24 +1,23 @@
 import PlaygroundSupport
 import UIKit
 
-let gc = GameController()
-PlaygroundPage.current.liveView = gc
+let startg = GameController()
+PlaygroundPage.current.liveView = startg
 
 
-gc.backImage = UIImage(named: "b")!
+startg.backImage = UIImage(named: "b")!
 
 
-class LPGR {
+class longP {
     static var counter = 0
     @objc static func longPressed(lp: UILongPressGestureRecognizer) {
         if lp.state == .began {
-            gc.quickPeek()
+            startg.quickPeek()
             counter += 1
-            print("You peeked \(counter) time(s).")
         }
     }
 }
 
-let longPress = UILongPressGestureRecognizer(target: LPGR.self, action: #selector(LPGR.longPressed))
+let longPress = UILongPressGestureRecognizer(target: longP.self, action: #selector(longP.longPressed))
 longPress.minimumPressDuration = 2.0
-gc.view.addGestureRecognizer(longPress)
+startg.view.addGestureRecognizer(longPress)

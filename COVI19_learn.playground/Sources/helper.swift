@@ -1,6 +1,7 @@
 import UIKit
 import GameplayKit
 import AVFoundation
+import AudioToolbox
 
 
 public extension UIImage {
@@ -22,8 +23,8 @@ public extension UIImage {
 
 
 
-let cardWidth = CGFloat(120)
-let cardHeight = CGFloat(141)
+let cW = CGFloat(120)
+let cH = CGFloat(141)
 
 public class Card: UIImageView {
     public let x: Int
@@ -55,17 +56,17 @@ public class GameController: UIViewController {
 
     public var backImage: UIImage = UIImage(
         color: .red,
-        size: CGSize(width: cardWidth, height: cardHeight))!
+        size: CGSize(width: cW, height: cH))!
 
     var viewWidth: CGFloat {
         get {
-            return 4 * cardWidth + 5 * padding
+            return 4 * cW + 5 * padding
         }
     }
 
     var viewHeight: CGFloat {
         get {
-            return 4 * cardHeight + 5 * padding
+            return 4 * cH + 5 * padding
         }
     }
 
@@ -152,7 +153,7 @@ public class GameController: UIViewController {
    
     func centerOfCardAt(x: Int, _ y: Int) -> CGPoint {
         assert(0 <= x && x < 4 && 0 <= y && y < 4)
-        let (w, h) = (cardWidth + padding, cardHeight + padding)
+        let (w, h) = (cW + padding, cH + padding)
         return CGPoint(
             x: CGFloat(x) * w + w/2 + padding/2,
             y: CGFloat(y) * h + h/2 + padding/2)
@@ -258,9 +259,9 @@ public class GameController: UIViewController {
             if(counter_a<=20){
                 label.textColor = UIColor.green}
                     else if(counter_a>20 && counter_a<40){
-                        label.textColor = UIColor.orange}
+                        label.textColor = UIColor(red: 0.86, green: 0.24, blue: 0.00, alpha: 1.00)}
                     else{
-                        label.textColor = UIColor.red
+                        label.textColor = UIColor(red: 1.00, green: 0.00, blue: 0.28, alpha: 1.00)
                 
 //                let alert_again = UIAlertController(title: "!!ALERT!!", message: "You've exceeded the number of flips than usuaul.", preferredStyle: UIAlertController.Style.alert)
 //
@@ -289,42 +290,43 @@ public class GameController: UIViewController {
                     if let pCard = self.firstCard {
                         if pCard.tag == card.tag {
                             self.playSound2()
+                            AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
                             self.counter_c+=2
                             switch self.counter_c {
                             case 2:
-                                let alert = UIAlertController(title: "COVID Preventive Measure", message: "Clean your hands often. Use soap and water, or an alcohol-based hand rub.", preferredStyle: UIAlertController.Style.alert)
+                                let alert = UIAlertController(title: "Hooray... You Unlocked 1st Tip", message: "Clean your hands often. Use soap and water, or an alcohol-based hand rub.", preferredStyle: UIAlertController.Style.alert)
                                 alert.addAction(UIAlertAction(title: "I WILL FOLLOW THIS", style: UIAlertAction.Style.default, handler: nil))
                                 self.present(alert, animated: true, completion: nil)
                             case 4:
-                                let alert = UIAlertController(title: "COVID Preventive Measure", message: "Maintain a safe distance from anyone who is coughing or sneezing.", preferredStyle: UIAlertController.Style.alert)
+                                let alert = UIAlertController(title: "Hooray... You Unlocked 2nd Tip", message: "Maintain a safe distance from anyone who is coughing or sneezing.", preferredStyle: UIAlertController.Style.alert)
                                 alert.addAction(UIAlertAction(title: "I WILL FOLLOW THIS", style: UIAlertAction.Style.default, handler: nil))
                                 self.present(alert, animated: true, completion: nil)
                             case 6:
-                                let alert = UIAlertController(title: "COVID Preventive Measure", message: "Don’t touch your eyes, nose or mouth.", preferredStyle: UIAlertController.Style.alert)
+                                let alert = UIAlertController(title: "Hooray... You Unlocked 3rd Tip", message: "Don’t touch your eyes, nose or mouth.", preferredStyle: UIAlertController.Style.alert)
                                 alert.addAction(UIAlertAction(title: "I WILL FOLLOW THIS", style: UIAlertAction.Style.default, handler: nil))
                                 self.present(alert, animated: true, completion: nil)
                             case 8:
-                                let alert = UIAlertController(title: "COVID Preventive Measure", message: "Cover your nose and mouth with your bent elbow or a tissue when you cough or sneeze.", preferredStyle: UIAlertController.Style.alert)
+                                let alert = UIAlertController(title: "Hooray... You Unlocked 4th Tip", message: "Cover your nose and mouth with your bent elbow or a tissue when you cough or sneeze.", preferredStyle: UIAlertController.Style.alert)
                                 alert.addAction(UIAlertAction(title: "I WILL FOLLOW THIS", style: UIAlertAction.Style.default, handler: nil))
                                 self.present(alert, animated: true, completion: nil)
                             case 10:
-                                let alert = UIAlertController(title: "COVID Preventive Measure", message: "Stay home if you feel unwell.", preferredStyle: UIAlertController.Style.alert)
+                                let alert = UIAlertController(title: "Hooray... You Unlocked 5th Tip", message: "Stay home if you feel unwell.", preferredStyle: UIAlertController.Style.alert)
                                 alert.addAction(UIAlertAction(title: "I WILL FOLLOW THIS", style: UIAlertAction.Style.default, handler: nil))
                                 self.present(alert, animated: true, completion: nil)
                             case 12:
-                                let alert = UIAlertController(title: "COVID Preventive Measure", message: "If you have a fever, cough and difficulty breathing, seek medical attention. Call in advance.", preferredStyle: UIAlertController.Style.alert)
+                                let alert = UIAlertController(title: "Hooray... You Unlocked 6th Tip", message: "If you have a fever, cough and difficulty breathing, seek medical attention. Call in advance.", preferredStyle: UIAlertController.Style.alert)
                                 alert.addAction(UIAlertAction(title: "I WILL FOLLOW THIS", style: UIAlertAction.Style.default, handler: nil))
                                 self.present(alert, animated: true, completion: nil)
                             case 14:
-                                let alert = UIAlertController(title: "COVID Preventive Measure", message: "Follow the directions of your local health authority.", preferredStyle: UIAlertController.Style.alert)
+                                let alert = UIAlertController(title: "Hooray... You Unlocked 7th Tip", message: "Follow the directions of your local health authority.", preferredStyle: UIAlertController.Style.alert)
                                 alert.addAction(UIAlertAction(title: "I WILL FOLLOW THIS", style: UIAlertAction.Style.default, handler: nil))
                                 self.present(alert, animated: true, completion: nil)
                             case 16:
-                                let alert = UIAlertController(title: "COVID Preventive Measure", message: "Avoiding unneeded visits to medical facilities allows healthcare systems to operate more effectively, therefore protecting you and others.", preferredStyle: UIAlertController.Style.alert)
+                                let alert = UIAlertController(title: "Hooray... You Unlocked 8th Tip", message: "Avoiding unneeded visits to medical facilities allows healthcare systems to operate more effectively, therefore protecting you and others.", preferredStyle: UIAlertController.Style.alert)
                                 alert.addAction(UIAlertAction(title: "I WILL FOLLOW THIS", style: UIAlertAction.Style.default, handler: nil))
                                 self.present(alert, animated: true, completion: nil)
                             default:
-                                let alert = UIAlertController(title: "COVID Preventive Measure", message: "!!!!PLEASE STAY SAFE AT HOME!!!!!", preferredStyle: UIAlertController.Style.alert)
+                                let alert = UIAlertController(title: "Hooray... You Unlocked a Tip", message: "!!!!PLEASE STAY SAFE AT HOME!!!!!", preferredStyle: UIAlertController.Style.alert)
                                 alert.addAction(UIAlertAction(title: "I WILL FOLLOW THIS", style: UIAlertAction.Style.default, handler: nil))
                                 self.present(alert, animated: true, completion: nil)
                             }
@@ -401,7 +403,7 @@ public class GameController: UIViewController {
             title2.numberOfLines = 0
             title2.textAlignment = NSTextAlignment.center
         title2.text = "Not Good!!! You completed in " + String(counter_a) + " flips.You can do better!!!!"
-        title2.backgroundColor = UIColor.red
+        title2.backgroundColor = UIColor(red: 1.00, green: 0.00, blue: 0.28, alpha: 1.00)
         self.view.addSubview(title2)
         }
         
