@@ -1,6 +1,6 @@
 # Swift Student Challenge Submission - 2020
 
-## COVID19-Learner-Game
+## COVID19 Learner Game
 
 Basic Concentration game for kids which also teach them tips to fight from COVID.
 
