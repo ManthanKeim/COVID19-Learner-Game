@@ -8,4 +8,4 @@ Basic Concentration game for kids which also teach them tips to fight from COVID
 
 Submitted on: May 12<sup>th</sup>, 2020
 
-Rej
+R
