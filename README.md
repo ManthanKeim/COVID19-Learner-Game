@@ -1,6 +1,6 @@
-# Swift Student Challenge Submission - 2020 - REJECTED
+# Swift Student Challenge Submission - 2020 - NOT SELECTED
 
-## COVID19 Learner Game
+## [COVID19 Learner Game](https://www.youtube.com/watch?v=ICt1kXr78uQ&t=15s)
 
 Basic Concentration game for kids which also teach them tips to fight from COVID.
 
